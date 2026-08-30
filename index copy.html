@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="DESCRIPTION META TAG">
+  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/>
+  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>
+  <meta property="og:url" content="URL OF THE WEBSITE"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
+  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    .title.is-3 {
+        font-style: italic;
+        color: LightSeaGreen;
+    }
+    /* ----- 新增：单视频轮播样式 ----- */
+    .video-carousel-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+    .video-carousel {
+      width: 100%;
+      max-width: 800px;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      background: #fafafa;
+      cursor: grab;
+      user-select: none;
+      touch-action: pan-y;
+    }
+    .video-carousel.dragging {
+      cursor: grabbing;
+    }
+    .video-slide {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      transition: transform 0.3s ease;
+    }
+    .video-slide video {
+      width: 100%;
+      max-height: 480px;
+      background: #000;
+      border-radius: 8px;
+    }
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 2;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-arrow:hover {
+      background: rgba(0,0,0,0.8);
+    }
+    .carousel-arrow.left {
+      left: -20px;
+    }
+    .carousel-arrow.right {
+      right: -20px;
+    }
+    @media (max-width: 768px) {
+      .carousel-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 1.4rem;
+      }
+      .carousel-arrow.left {
+        left: -6px;
+      }
+      .carousel-arrow.right {
+        right: -6px;
+      }
+    }
+    .indicators {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .dot.active {
+      background: #3273dc;
+      transform: scale(1.2);
+    }
+    .method-figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .method-caption {
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+  </style>
+
+  <title>TASTE-Rob: Advancing Video Generation of Task-Oriented Hand-Object Interaction for Generalizable Robotic Manipulation</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">CosmoH2G: A Hand-to-Gripper Transfer Dataset and Baseline Method for Object Manipulation with Complex Spatial Movements</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://hong-xiang-cv.github.io/" target="_blank">Hongxiang Zhao</a><sup>1*</sup>,</span>
+                <span class="author-block">
+                  <a href="https://mutianxu.github.io/" target="_blank">Mutian Xu</a><sup>3*</sup>,</span>
+                  <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=mGvR_WoAAAAJ" target="_blank">Zeyu Jin</a><sup>1</sup>,</span>
+                  <span class="author-block">
+                  <a href="https://scholar.google.com/citations?user=mlu1Oo4AAAAJ&hl=en" target="_blank">Yiming Hao</a><sup>1</sup>,</span>
+                  <span class="author-block">
+                  <a href="https://sse.cuhk.edu.cn/en/faculty/cuishuguang" target="_blank">Shuguang Cui</a><sup>1,2</sup>,</span>
+                  <span class="author-block">
+                  <a href="https://gaplab.cuhk.edu.cn/" target="_blank">Xiaoguang Han</a><sup>1,2,3§</sup>,</span>
+                  <span class="author-block">
+                  </span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block"><sup>1</sup>SSE, CUHKSZ</span>&nbsp&nbsp&nbsp
+                    <span class="author-block"><sup>2</sup>FNii, CUHKSZ</span>&nbsp&nbsp&nbsp
+                    <span class="author-block"><sup>3</sup>GenuX</span>
+                    <span class="eql-cntrb">
+                      <small><br><sup>*</sup>Indicates Equal Contribution</small>&nbsp&nbsp&nbsp
+                      <small><sup>§</sup>Corresponding Author</small>
+                    </span>
+                  </div>
+
+                  <br>
+                  <h3 class="title is-3">SIGGRAPH Asia 2026</h3>
+                  <br>
+
+                  <!-- ArXiv abstract Link -->
+                  <span class="link-block">
+                    <a href="" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+
+                <!-- Dataset link -->
+                  <span class="link-block">
+                    <a href="" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <svg class="svg-inline--fa fa-images fa-w-18" aria-hidden="true" focusable="false" data-prefix="far" data-icon="images" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M480 416v16c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V176c0-26.51 21.49-48 48-48h16v48H54a6 6 0 0 0-6 6v244a6 6 0 0 0 6 6h372a6 6 0 0 0 6-6v-10h48zm42-336H150a6 6 0 0 0-6 6v244a6 6 0 0 0 6 6h372a6 6 0 0 0 6-6V86a6 6 0 0 0-6-6zm6-48c26.51 0 48 21.49 48 48v256c0 26.51-21.49 48-48 48H144c-26.51 0-48-21.49-48-48V80c0-26.51 21.49-48 48-48h384zM264 144c0 22.091-17.909 40-40 40s-40-17.909-40-40 17.909-40 40-40 40 17.909 40 40zm-72 96l39.515-39.515c4.686-4.686 12.284-4.686 16.971 0L288 240l103.515-103.515c4.686-4.686 12.284-4.686 16.971 0L480 208v80H192v-48z"></path></svg>
+                    </span>
+                    <span>Dataset (Coming Soon!)</span>
+                  </a>
+                </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Teaser video-->
+  <section class="hero teaser" >
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <!-- Your video here -->
+          <source src="static/videos/demo_video_revise.mp4"
+          type="video/mp4">
+        </video>
+        <h2 class="subtitle has-text-centered">
+          <strong>CosmoH2G</strong>: We present <strong>TASTE-Rob</strong>, which is able to generate reasonable HOI videos on unseen scenes and support possibility for generalizable robot manipulation. 
+        </h2>
+      </div>
+    </div>
+  </section>
+  <!-- End teaser video -->
+
+  <!-- Paper abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Transferring human hand demonstrations to robotic grippers has recently emerged as a cost-effective solution for robot learning. 
+              However, existing methods are largely confined to simple, planar tasks and fail to handle complex spatial movements (eg., intricate trajectories involving rotations or flips) 
+              that are essential for robot manipulation. 
+              Motivated by this gap, we adopt an <em>implicit, data-driven</em> approach guided by fine-grained <em>hand-pose</em> motions.
+              To this end, we introduce a scalable acquisition pipeline to collect hand-gripper <em>paired demonstrations</em>, governed by a rigorous protocol that prioritizes motion complexity and leverages a handheld gripper for seamless action mimicry. This yields a large-scale paired dataset comprising 6,189 episodes across 1,254 unique objects, exhibiting significantly higher spatial complexity than existing benchmarks. However, learning such complex mappings remains challenging. We observe that naive end-to-end generation of full gripper pose sequences is insufficient, as minor trajectory deviations compound rapidly under intricate dynamics. To address this, we propose a two-stage framework: Stage I predicts sparse gripper keyframes (initial and terminal) to simplify the mapping objective, while Stage II generates the full continuous action sequence conditioned on these keyframes. Furthermore, to mitigate cumulative drift, we keep the gripper's orientation being learned while post-optimizing its translation based on the grasping heuristic and kinematic consistency. In both <em>simulation</em> and  <em>real-robot</em> experiments, our framework enables stable and precise hand-to-gripper transfer of complex spatial manipulations, significantly outperforming traditional baselines.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End paper abstract -->
+
+  <!-- ========== 单视频轮播 ========== -->
+  <section class="section video-carousel-section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Paired Hand-to-Gripper Demonstrations</h2>
+      <div class="video-carousel-wrapper">
+        <button class="carousel-arrow left carousel-prev">❮</button>
+        <div class="video-carousel carousel-track">
+          <div class="video-slide">
+            <video class="carousel-video" controls autoplay muted playsinline loop preload="auto" src="static/videos/1264_5_6_hand_umi_stack.mp4"></video>
+          </div>
+        </div>
+        <button class="carousel-arrow right carousel-next">❯</button>
+      </div>
+      <div class="indicators carousel-indicators"></div>
+    </div>
+  </section>
+
+  <section class="section video-carousel-section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Transfer Results in Simulation</h2>
+      <div class="video-carousel-wrapper">
+        <button class="carousel-arrow left carousel-prev">❮</button>
+        <div class="video-carousel carousel-track">
+          <div class="video-slide">
+            <video class="carousel-video" controls autoplay muted playsinline loop preload="auto" src="static/videos/1264_1_2_transfer.mp4"></video>
+          </div>
+        </div>
+        <button class="carousel-arrow right carousel-next">❯</button>
+      </div>
+      <div class="indicators carousel-indicators"></div>
+    </div>
+  </section>
+
+  <script>
+    (function() {
+      const demoVideos = [
+        { src: 'static/videos/1264_5_6_hand_umi_stack.mp4' },
+        { src: 'static/videos/1259_9_10_hand_umi_stack.mp4' },
+        { src: 'static/videos/1255_5_6_hand_umi_stack.mp4' },
+        { src: 'static/videos/1246_3_4_hand_umi_stack.mp4' },
+      ];
+      const transferVideos = [
+        { src: 'static/videos/1264_1_2_transfer.mp4' },
+        { src: 'static/videos/1248_5_6_transfer.mp4' },
+        { src: 'static/videos/1251_7_8_transfer.mp4' },
+        { src: 'static/videos/1261_9_10_transfer.mp4' },
+      ];
+
+      let activeCarousel = null;
+
+      function initVideoCarousel(section, videoList) {
+        const videoEl = section.querySelector('.carousel-video');
+        const prevBtn = section.querySelector('.carousel-prev');
+        const nextBtn = section.querySelector('.carousel-next');
+        const indicators = section.querySelector('.carousel-indicators');
+        const carousel = section.querySelector('.carousel-track');
+
+        let currentIndex = 0;
+        let isDragging = false;
+        let startX = 0;
+        let currentTranslate = 0;
+        let initialTranslate = 0;
+
+        function renderVideo(index) {
+          const video = videoList[index];
+          if (!video) return;
+          videoEl.pause();
+          videoEl.src = video.src;
+          videoEl.load();
+          videoEl.play().catch(() => {});
+          updateIndicators();
+        }
+
+        function updateIndicators() {
+          const dots = indicators.querySelectorAll('.dot');
+          dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentIndex);
+          });
+        }
+
+        function goTo(index) {
+          const len = videoList.length;
+          if (index < 0) index = len - 1;
+          if (index >= len) index = 0;
+          currentIndex = index;
+          renderVideo(currentIndex);
+          carousel.style.transform = 'translateX(0px)';
+          currentTranslate = 0;
+        }
+
+        function next() { goTo(currentIndex + 1); }
+        function prev() { goTo(currentIndex - 1); }
+
+        function initIndicators() {
+          indicators.innerHTML = '';
+          videoList.forEach((_, i) => {
+            const dot = document.createElement('span');
+            dot.className = 'dot' + (i === currentIndex ? ' active' : '');
+            dot.addEventListener('click', () => goTo(i));
+            indicators.appendChild(dot);
+          });
+        }
+
+        function startDrag(e) {
+          e.preventDefault();
+          isDragging = true;
+          carousel.classList.add('dragging');
+          const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+          startX = clientX;
+          initialTranslate = currentTranslate;
+          carousel.style.transition = 'none';
+        }
+
+        function moveDrag(e) {
+          if (!isDragging) return;
+          e.preventDefault();
+          const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+          const deltaX = clientX - startX;
+          currentTranslate = initialTranslate + deltaX;
+          const maxOffset = carousel.offsetWidth * 0.2;
+          if (Math.abs(currentTranslate) > maxOffset) {
+            currentTranslate = Math.sign(currentTranslate) * maxOffset;
+          }
+          carousel.style.transform = `translateX(${currentTranslate}px)`;
+        }
+
+        function endDrag(e) {
+          if (!isDragging) return;
+          isDragging = false;
+          carousel.classList.remove('dragging');
+          carousel.style.transition = 'transform 0.3s ease';
+
+          if (Math.abs(currentTranslate) > 50) {
+            if (currentTranslate < 0) {
+              next();
+            } else {
+              prev();
+            }
+          } else {
+            carousel.style.transform = 'translateX(0px)';
+            currentTranslate = 0;
+          }
+        }
+
+        prevBtn.addEventListener('click', prev);
+        nextBtn.addEventListener('click', next);
+
+        carousel.addEventListener('mousedown', startDrag);
+        carousel.addEventListener('mousemove', moveDrag);
+        carousel.addEventListener('mouseup', endDrag);
+        carousel.addEventListener('mouseleave', endDrag);
+
+        carousel.addEventListener('touchstart', startDrag, { passive: false });
+        carousel.addEventListener('touchmove', moveDrag, { passive: false });
+        carousel.addEventListener('touchend', endDrag);
+
+        section.addEventListener('mouseenter', () => { activeCarousel = section; });
+        section.addEventListener('focusin', () => { activeCarousel = section; });
+
+        initIndicators();
+        renderVideo(currentIndex);
+      }
+
+      const sections = document.querySelectorAll('.video-carousel-section');
+      initVideoCarousel(sections[0], demoVideos);
+      initVideoCarousel(sections[1], transferVideos);
+
+      window.addEventListener('keydown', (e) => {
+        if (!activeCarousel) return;
+        const prevBtn = activeCarousel.querySelector('.carousel-prev');
+        const nextBtn = activeCarousel.querySelector('.carousel-next');
+        if (e.key === 'ArrowLeft') prevBtn.click();
+        if (e.key === 'ArrowRight') nextBtn.click();
+      });
+    })();
+  </script>
+  <!-- ========== 单视频轮播结束 ========== -->
+
+  <!-- Dataset overview -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Dataset Processing Pipeline</h2>
+      <figure class="method-figure">
+        <img src="static/images/dataset.jpg" alt="Dataset processing pipeline of CosmoH2G">
+        <figcaption class="content has-text-justified method-caption">
+          <p>
+            <strong>Dataset processing pipeline.</strong>
+            <strong>(L)</strong> We record paired RGB-D videos of hand and gripper manipulation under diverse grasps.
+            <strong>(R)</strong> From RGB-D videos and multi-view object captures, we extract registered 3D motion — object point clouds, hand meshes, and gripper actions.
+          </p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+  <!-- End dataset overview -->
+
+  <!-- Method overview -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Method</h2>
+      <figure class="method-figure">
+        <img src="static/images/method.jpg" alt="Overview of the CosmoH2G two-stage framework">
+        <figcaption class="content has-text-justified method-caption">
+          <p>
+            <strong>Overview of the framework.</strong>
+            CosmoH2G consists of a two-stage framework:
+            <strong>(L)</strong> the model generates a single-frame action conditioned on given HOI point clouds. During inference, the model generates poses for the starting and terminal frames, respectively;
+            <strong>(R)</strong> the model generates an orientation sequence conditioned on object points, the hand-point sequence, and Stage-I generation.
+            During inference, the pose sequence is produced by combining the generated orientation sequence with the position sequence calculated from the hand sequence, under the prior that the grasping regions (shown as the small yellow circle) are approximately aligned.
+            Additionally, we further optimize the sequence by considering contact-map alignment, trajectory smoothness, and physical plausibility.
+          </p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+  <!-- End method overview -->
+
+  <!-- Image carousel (commented out) -->
+  <!-- ... existing commented carousel ... -->
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+              You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+              Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Statcounter tracking code (optional) -->
+  </body>
+</html>

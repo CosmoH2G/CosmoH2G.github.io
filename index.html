@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="CosmoH2G: a hand-to-gripper transfer dataset and baseline method for object manipulation with complex spatial movements. SIGGRAPH Asia 2026.">
+  <meta property="og:title" content="CosmoH2G">
+  <meta property="og:description" content="A hand-to-gripper transfer dataset and baseline method for object manipulation with complex spatial movements.">
+  <meta property="og:image" content="static/images/method.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CosmoH2G">
+  <meta name="twitter:description" content="A hand-to-gripper transfer dataset and baseline method for object manipulation with complex spatial movements.">
+  <meta name="twitter:image" content="static/images/method.jpg">
+  <title>CosmoH2G</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,650&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap site-header-inner">
+      <a class="wordmark" href="#">CosmoH2G</a>
+      <nav class="site-nav" aria-label="Page sections">
+        <a href="#abstract">Abstract</a>
+        <a href="#demonstrations">Demos</a>
+        <a href="#results">Results</a>
+        <a href="#dataset">Dataset</a>
+        <a href="#method">Method</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="venue-pill">SIGGRAPH Asia 2026</p>
+      <h1 class="hero-brand">CosmoH2G</h1>
+      <p class="paper-title">A Hand-to-Gripper Transfer Dataset and Baseline Method for Object Manipulation with Complex Spatial Movements</p>
+
+      <ul class="author-list">
+        <li><a href="https://hong-xiang-cv.github.io/" target="_blank" rel="noopener">Hongxiang Zhao</a><sup>1*</sup></li>
+        <li><a href="https://mutianxu.github.io/" target="_blank" rel="noopener">Mutian Xu</a><sup>3*</sup></li>
+        <li><a href="https://scholar.google.com/citations?user=mGvR_WoAAAAJ" target="_blank" rel="noopener">Zeyu Jin</a><sup>1</sup></li>
+        <li><a href="https://scholar.google.com/citations?user=mlu1Oo4AAAAJ&hl=en" target="_blank" rel="noopener">Yiming Hao</a><sup>1</sup></li>
+        <li><a href="https://sse.cuhk.edu.cn/en/faculty/cuishuguang" target="_blank" rel="noopener">Shuguang Cui</a><sup>1,2</sup></li>
+        <li><a href="https://gaplab.cuhk.edu.cn/" target="_blank" rel="noopener">Xiaoguang Han</a><sup>1,2,3§</sup></li>
+      </ul>
+
+      <p class="affiliations">
+        <span><sup>1</sup> SSE, CUHKSZ</span>
+        <span><sup>2</sup> FNii, CUHKSZ</span>
+        <span><sup>3</sup> GenuX</span>
+      </p>
+      <p class="credits"><sup>*</sup> Equal contribution &nbsp;&nbsp; <sup>§</sup> Corresponding author</p>
+
+      <div class="action-row">
+        <a class="btn" href="" target="_blank" rel="noopener">
+          <span class="icon"><i class="ai ai-arxiv"></i></span>
+          arXiv
+        </a>
+        <a class="btn btn-ghost" href="" target="_blank" rel="noopener">
+          Dataset · Coming Soon
+        </a>
+        <a class="btn btn-ghost" href="" target="_blank" rel="noopener">
+          Code · Coming Soon
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-flush">
+    <div class="wrap">
+      <div class="media-frame teaser-video">
+        <video autoplay controls muted loop playsinline>
+          <source src="static/videos/demo_video_revise.mp4" type="video/mp4">
+        </video>
+      </div>
+      <p class="caption">
+        <strong>CosmoH2G</strong> transfers complex spatial hand demonstrations to robotic grippers through a two-stage, data-driven framework.
+      </p>
+    </div>
+  </section>
+
+  <section class="band band-alt" id="abstract">
+    <div class="wrap-text">
+      <div class="section-head">
+        <span class="kicker">01</span>
+        <h2 class="section-title">Abstract</h2>
+      </div>
+      <p class="abstract-text">
+        Transferring human hand demonstrations to robotic grippers has recently emerged as a cost-effective solution for robot learning.
+        However, existing methods are largely confined to simple, planar tasks and fail to handle complex spatial movements (eg., intricate trajectories involving rotations or flips)
+        that are essential for robot manipulation.
+        Motivated by this gap, we adopt an <em>implicit, data-driven</em> approach guided by fine-grained <em>hand-pose</em> motions.
+        To this end, we introduce a scalable acquisition pipeline to collect hand-gripper <em>paired demonstrations</em>, governed by a rigorous protocol that prioritizes motion complexity and leverages a handheld gripper for seamless action mimicry. This yields a large-scale paired dataset comprising 6,189 episodes across 1,254 unique objects, exhibiting significantly higher spatial complexity than existing benchmarks. However, learning such complex mappings remains challenging. We observe that naive end-to-end generation of full gripper pose sequences is insufficient, as minor trajectory deviations compound rapidly under intricate dynamics. To address this, we propose a two-stage framework: Stage I predicts sparse gripper keyframes (initial and terminal) to simplify the mapping objective, while Stage II generates the full continuous action sequence conditioned on these keyframes. Furthermore, to mitigate cumulative drift, we keep the gripper's orientation being learned while post-optimizing its translation based on the grasping heuristic and kinematic consistency. In both <em>simulation</em> and <em>real-robot</em> experiments, our framework enables stable and precise hand-to-gripper transfer of complex spatial manipulations, significantly outperforming traditional baselines.
+      </p>
+    </div>
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat">
+          <span class="stat-num">6,189</span>
+          <span class="stat-label">paired episodes</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">1,254</span>
+          <span class="stat-label">unique objects</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band video-carousel-section" id="demonstrations">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">02</span>
+        <h2 class="section-title">Paired Hand-to-Gripper Demonstrations</h2>
+      </div>
+      <div class="video-carousel-wrapper">
+        <button class="carousel-arrow left carousel-prev" type="button" aria-label="Previous video">❮</button>
+        <div class="video-carousel carousel-track">
+          <div class="video-slide">
+            <video class="carousel-video" controls autoplay muted playsinline loop preload="auto" src="static/videos/1264_5_6_hand_umi_stack.mp4"></video>
+          </div>
+        </div>
+        <button class="carousel-arrow right carousel-next" type="button" aria-label="Next video">❯</button>
+      </div>
+      <div class="indicators carousel-indicators"></div>
+    </div>
+  </section>
+
+  <section class="band band-alt video-carousel-section" id="results">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">03</span>
+        <h2 class="section-title">Transfer Results in Simulation</h2>
+      </div>
+      <div class="video-carousel-wrapper">
+        <button class="carousel-arrow left carousel-prev" type="button" aria-label="Previous video">❮</button>
+        <div class="video-carousel carousel-track">
+          <div class="video-slide">
+            <video class="carousel-video" controls autoplay muted playsinline loop preload="auto" src="static/videos/1264_1_2_transfer.mp4"></video>
+          </div>
+        </div>
+        <button class="carousel-arrow right carousel-next" type="button" aria-label="Next video">❯</button>
+      </div>
+      <div class="indicators carousel-indicators"></div>
+    </div>
+  </section>
+
+  <script>
+    (function() {
+      const demoVideos = [
+        { src: 'static/videos/1264_5_6_hand_umi_stack.mp4' },
+        { src: 'static/videos/1259_9_10_hand_umi_stack.mp4' },
+        { src: 'static/videos/1255_5_6_hand_umi_stack.mp4' },
+        { src: 'static/videos/1246_3_4_hand_umi_stack.mp4' },
+      ];
+      const transferVideos = [
+        { src: 'static/videos/1264_1_2_transfer.mp4' },
+        { src: 'static/videos/1248_5_6_transfer.mp4' },
+        { src: 'static/videos/1251_7_8_transfer.mp4' },
+        { src: 'static/videos/1261_9_10_transfer.mp4' },
+      ];
+
+      let activeCarousel = null;
+
+      function initVideoCarousel(section, videoList) {
+        const videoEl = section.querySelector('.carousel-video');
+        const prevBtn = section.querySelector('.carousel-prev');
+        const nextBtn = section.querySelector('.carousel-next');
+        const indicators = section.querySelector('.carousel-indicators');
+        const carousel = section.querySelector('.carousel-track');
+
+        let currentIndex = 0;
+        let isDragging = false;
+        let startX = 0;
+        let currentTranslate = 0;
+        let initialTranslate = 0;
+
+        function renderVideo(index) {
+          const video = videoList[index];
+          if (!video) return;
+          videoEl.pause();
+          videoEl.src = video.src;
+          videoEl.load();
+          videoEl.play().catch(() => {});
+          updateIndicators();
+        }
+
+        function updateIndicators() {
+          const dots = indicators.querySelectorAll('.dot');
+          dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentIndex);
+          });
+        }
+
+        function goTo(index) {
+          const len = videoList.length;
+          if (index < 0) index = len - 1;
+          if (index >= len) index = 0;
+          currentIndex = index;
+          renderVideo(currentIndex);
+          carousel.style.transform = 'translateX(0px)';
+          currentTranslate = 0;
+        }
+
+        function next() { goTo(currentIndex + 1); }
+        function prev() { goTo(currentIndex - 1); }
+
+        function initIndicators() {
+          indicators.innerHTML = '';
+          videoList.forEach((_, i) => {
+            const dot = document.createElement('span');
+            dot.className = 'dot' + (i === currentIndex ? ' active' : '');
+            dot.addEventListener('click', () => goTo(i));
+            indicators.appendChild(dot);
+          });
+        }
+
+        function startDrag(e) {
+          e.preventDefault();
+          isDragging = true;
+          carousel.classList.add('dragging');
+          const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+          startX = clientX;
+          initialTranslate = currentTranslate;
+          carousel.style.transition = 'none';
+        }
+
+        function moveDrag(e) {
+          if (!isDragging) return;
+          e.preventDefault();
+          const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+          const deltaX = clientX - startX;
+          currentTranslate = initialTranslate + deltaX;
+          const maxOffset = carousel.offsetWidth * 0.2;
+          if (Math.abs(currentTranslate) > maxOffset) {
+            currentTranslate = Math.sign(currentTranslate) * maxOffset;
+          }
+          carousel.style.transform = `translateX(${currentTranslate}px)`;
+        }
+
+        function endDrag() {
+          if (!isDragging) return;
+          isDragging = false;
+          carousel.classList.remove('dragging');
+          carousel.style.transition = 'transform 0.3s ease';
+
+          if (Math.abs(currentTranslate) > 50) {
+            if (currentTranslate < 0) {
+              next();
+            } else {
+              prev();
+            }
+          } else {
+            carousel.style.transform = 'translateX(0px)';
+            currentTranslate = 0;
+          }
+        }
+
+        prevBtn.addEventListener('click', prev);
+        nextBtn.addEventListener('click', next);
+
+        carousel.addEventListener('mousedown', startDrag);
+        carousel.addEventListener('mousemove', moveDrag);
+        carousel.addEventListener('mouseup', endDrag);
+        carousel.addEventListener('mouseleave', endDrag);
+
+        carousel.addEventListener('touchstart', startDrag, { passive: false });
+        carousel.addEventListener('touchmove', moveDrag, { passive: false });
+        carousel.addEventListener('touchend', endDrag);
+
+        section.addEventListener('mouseenter', () => { activeCarousel = section; });
+        section.addEventListener('focusin', () => { activeCarousel = section; });
+
+        initIndicators();
+        renderVideo(currentIndex);
+      }
+
+      const sections = document.querySelectorAll('.video-carousel-section');
+      initVideoCarousel(sections[0], demoVideos);
+      initVideoCarousel(sections[1], transferVideos);
+
+      window.addEventListener('keydown', (e) => {
+        if (!activeCarousel) return;
+        const prevBtn = activeCarousel.querySelector('.carousel-prev');
+        const nextBtn = activeCarousel.querySelector('.carousel-next');
+        if (e.key === 'ArrowLeft') prevBtn.click();
+        if (e.key === 'ArrowRight') nextBtn.click();
+      });
+    })();
+  </script>
+
+  <section class="band" id="dataset">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">04</span>
+        <h2 class="section-title">Dataset Processing Pipeline</h2>
+      </div>
+      <figure class="figure-block">
+        <div class="media-frame">
+          <img src="static/images/dataset.jpg" alt="Dataset processing pipeline of CosmoH2G">
+        </div>
+        <figcaption class="figure-caption">
+          <strong>Dataset processing pipeline.</strong>
+          <strong>(L)</strong> We record paired RGB-D videos of hand and gripper manipulation under diverse grasps.
+          <strong>(R)</strong> From RGB-D videos and multi-view object captures, we extract registered 3D motion — object point clouds, hand meshes, and gripper actions.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="band band-alt" id="method">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">05</span>
+        <h2 class="section-title">Method</h2>
+      </div>
+      <figure class="figure-block">
+        <div class="media-frame">
+          <img src="static/images/method.jpg" alt="Overview of the CosmoH2G two-stage framework">
+        </div>
+        <figcaption class="figure-caption">
+          <strong>Overview of the framework.</strong>
+          CosmoH2G consists of a two-stage framework:
+          <strong>(L)</strong> the model generates a single-frame action conditioned on given HOI point clouds. During inference, the model generates poses for the starting and terminal frames, respectively;
+          <strong>(R)</strong> the model generates an orientation sequence conditioned on object points, the hand-point sequence, and Stage-I generation.
+          During inference, the pose sequence is produced by combining the generated orientation sequence with the position sequence calculated from the hand sequence, under the prior that the grasping regions (shown as the small yellow circle) are approximately aligned.
+          Additionally, we further optimize the sequence by considering contact-map alignment, trajectory smoothness, and physical plausibility.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap-text">
+      This page was built using the
+      <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>,
+      adopted from <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a>.
+      Licensed under
+      <a href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.
+    </div>
+  </footer>
+</body>
+</html>
