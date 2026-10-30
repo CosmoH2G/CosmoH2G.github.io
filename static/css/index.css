@@ -236,6 +236,20 @@ figure {
   gap: 10px;
 }
 
+.release-note {
+  max-width: 640px;
+  margin: 0.95rem auto 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  text-align: center;
+}
+
+.release-note strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
